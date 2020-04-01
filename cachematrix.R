@@ -1,15 +1,33 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Lexical Scoping assignment for R Programming Course
+## April 1, 2020
 
-## Write a short comment describing this function
+## makeCacheMatrix function
 
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(x=matrix()) {
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setValue <- function(matrix) m <<- solve(matrix)
+  getValue <- function() m
+  list(set = set, get = get, 
+       setValue = setValue, 
+       getValue = getValue)
 }
 
 
-## Write a short comment describing this function
+## cacheSolve function
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function(x) {
+  m <- x$getValue()
+  if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data)
+  x$setValue(data)
+  m
 }
